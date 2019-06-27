@@ -1,0 +1,30 @@
+{
+  "name": "bot-test",
+  "version": "1.0.0",
+  "description": "Azure bot service with the brower based speech recognation",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prbhavsa/Azure-Bot-Service.git"
+  },
+  "keywords": [
+    "Azure",
+    "qnaservice",
+    "browser",
+    "speech",
+    "recognation"
+  ],
+  "author": "Pritesh Bhavsar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prbhavsa/Azure-Bot-Service/issues"
+  },
+  "homepage": "https://github.com/prbhavsa/Azure-Bot-Service#readme",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
+  }
+}
