@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TTS Furo Demo</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<h1> Demo TTS-Furo:</h1>
+
+<form method="post" action="/">
+    <p>Text Area:</p>
+    <input type="text" name="txt_are" id="txt_area" autofocus>
+    <button id="get_ans" type="submit" >Submit</button>
+</form>
+
+<button onclick="listen_start()"> Listen </button>
+<button onclick="listen_stop()"> Stop Listening</button>
+
+<p id="list_status">Listening Status: Not Listening</p>
+
+
+<table>
+    <tr>
+        <td><strong> Question </strong></td>
+        <td><strong> Score </strong></td>
+        <td><strong>Answer</strong></td>
+    </tr>
+
+    <% if(data != '') { for(var i = 0; i< data.answers.length; i++) { %>
+    <tr>
+        <td><%=data.answers[i].questions[0]%></td>
+        <td><%=data.answers[i].score%></td>
+        <td><%=data.answers[i].answer%></td>
+    </tr>
+    <%} }%>
+
+
+</table>
+
+
+
+<script>
+    var flag = false;
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("you need to use chrome")
+    } else {
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.start();
+
+        recognition.onresult = function (event) {
+
+            var txt = event.results[event.results.length - 1][0].transcript;
+            var txt1 = event.results[event.resultIndex];
+
+            if(txt1.isFinal){
+                if(flag === false){
+                    console.log("value: " +(txt.toLowerCase()).search('francesca'));
+                    if((txt.toLowerCase()).search('francesca')!== -1)
+                    {
+                        flag = true;
+                        document.getElementById('list_status').innerText = "Listening Status: Listening";
+                    }
+                }
+                else
+                {
+                    flag = false;
+                    document.getElementById('get_ans').click();
+                    //document.getElementById('list_status').innerText = "Listening Status: Not Listening";
+                }
+            }
+
+            document.getElementById('txt_area').value = txt;
+
+            recognition.onspeechend = function() {
+                console.log('Speech has stopped being detected');
+            }
+
+
+
+            setInterval(function () {
+                recognition.start();
+                console.log("Recognation started");
+            }, 60000)
+
+        };
+
+
+
+
+    }
+
+    function listen_start() {
+        flag = true;
+        document.getElementById('list_status').innerText = "Listening Status: Listening";
+        recognition.start();
+
+    }
+    function listen_stop() {
+        recognition.stop();
+        document.getElementById('list_status').innerText = "Listening Status: Not Listening";
+    }
+</script>
+</body>
+</html>
